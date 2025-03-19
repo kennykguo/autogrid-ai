@@ -49,7 +49,7 @@ Emission Reduction: Reduce reliance on fossil fuels (positive reward for avoidin
 
 
 Historical Time-Series Data
-At least 1-2 years of hourly or sub-hourly data to capture seasonal patterns
+At least 1-2 years of hourly or sub-hourly data to capture seasonal patterns 
 Solar and wind generation profiles
 Load demand patterns
 Weather data correlated with generation
