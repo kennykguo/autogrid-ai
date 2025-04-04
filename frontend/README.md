@@ -1,1 +1,1 @@
-![Microgrid Dashboard](public/images/snapshot-preview.png)
+![Microgrid Dashboard Screenshot](public/images/snapshot-preview.png)
