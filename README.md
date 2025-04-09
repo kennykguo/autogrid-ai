@@ -19,5 +19,7 @@ the best outcome decision.
 - Energy import and export recommendations  
 - Energy shortage warnings and alerts  
 - Energy production and demand forecasts  
-- Grid stability predictions  
+- Grid stability predictions
+
+# Frontend dashboard
 ![image](https://github.com/user-attachments/assets/c67e7120-809b-4b1f-8560-3e9d3b0f46ab)
