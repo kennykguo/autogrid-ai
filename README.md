@@ -20,3 +20,4 @@ the best outcome decision.
 - Energy shortage warnings and alerts  
 - Energy production and demand forecasts  
 - Grid stability predictions  
+![image](https://github.com/user-attachments/assets/c67e7120-809b-4b1f-8560-3e9d3b0f46ab)
