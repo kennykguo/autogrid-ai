@@ -21,5 +21,5 @@ the best outcome decision.
 - Energy production and demand forecasts  
 - Grid stability predictions
 
-# Frontend dashboard
+# Frontend Dashboard
 ![image](https://github.com/user-attachments/assets/c67e7120-809b-4b1f-8560-3e9d3b0f46ab)
