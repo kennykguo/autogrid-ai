@@ -1,13 +1,13 @@
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import "./globals.css";
+import './globals.css'
+import { Inter } from 'next/font/google'
+import Navigation from '@/components/Navigation'
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ subsets: ['latin'] })
 
-export const metadata: Metadata = {
-  title: "Microgrid Dashboard",
-  description: "Real-time monitoring and control of microgrid operations",
-};
+export const metadata = {
+  title: 'Microgrid Dashboard',
+  description: 'Real-time monitoring and control of microgrid systems',
+}
 
 export default function RootLayout({
   children,
@@ -16,7 +16,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${inter.className} bg-gray-50`}>{children}</body>
+      <body className={inter.className}>
+        <Navigation />
+        <main className="pt-16">
+          {children}
+        </main>
+      </body>
     </html>
-  );
+  )
 }

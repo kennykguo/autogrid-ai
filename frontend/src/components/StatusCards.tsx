@@ -35,7 +35,7 @@ const statusCards = [
 
 export default function StatusCards() {
   return (
-    <>
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
       {statusCards.map((card) => (
         <div key={card.title} className="bg-white rounded-lg shadow p-6">
           <div className="flex items-center justify-between">
@@ -52,6 +52,6 @@ export default function StatusCards() {
           </div>
         </div>
       ))}
-    </>
+    </div>
   )
 } 
