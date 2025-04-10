@@ -1,0 +1,2678 @@
+{
+    "title": "Household Data",
+    "name": "opsd_household_data",
+    "description": "Detailed household load and solar generation in minutely to hourly resolution",
+    "long_description": "This data package contains measured time series data for several small businesses and residential households relevant for household- or low-voltage-level power system modeling. The data includes solar power generation as well as electricity consumption (load) in a resolution up to single device consumption. The starting point for the time series, as well as data quality, varies between households, with gaps spanning from a few minutes to entire days. All measurement devices provided cumulative energy consumption/generation over time. Hence overall energy consumption/generation is retained, in case of data gaps due to communication problems. Measurements were conducted 1-minute intervals, with all data made available in an interpolated, uniform and regular time interval. All data gaps are either interpolated linearly, or filled with data of prior days. Additionally, data in 15 and 60-minute resolution is provided for compatibility with other time series data. Data processing is conducted in Jupyter Notebooks/Python/pandas.",
+    "documentation": "https://github.com/isc-konstanz/household_data/blob/2020-04-15/main.ipynb",
+    "version": "2020-04-15",
+    "last_changes": "Second release of all CoSSMic households",
+    "keywords": [
+        "Open Power System Data",
+        "CoSSMic",
+        "household data",
+        "time series",
+        "power systems",
+        "in-feed",
+        "renewables",
+        "solar",
+        "power consumption"
+    ],
+    "contributors": [
+        {
+            "web": "http://isc-konstanz.de/",
+            "name": "Adrian Minde",
+            "email": "adrian.minde@isc-konstanz.de"
+        }
+    ],
+    "sources": [
+        {
+            "web": "http://isc-konstanz.de/isc/institut/oeffentliche-projekte/abgeschl-projekte/eu/cossmic.html",
+            "name": "CoSSMic",
+            "source": "Collaborating Smart Solar-powered Microgrids - European funded research consortium"
+        }
+    ],
+    "licenses": [
+        {
+            "id": "CC-BY-4.0",
+            "version": "4.0",
+            "name": "Creative Commons Attribution-International",
+            "url": "https://creativecommons.org/licenses/by/4.0/"
+        }
+    ],
+    "external": true,
+    "geographical-scope": "11 households in southern Germany",
+    "resources": [
+        {
+            "mediatype": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+            "format": "xlsx",
+            "path": "household_data.xlsx"
+        },
+        {
+            "path": "household_data_1min_singleindex.csv",
+            "format": "csv",
+            "mediatype": "text/csv",
+            "encoding": "UTF8",
+            "schema": "1min",
+            "dialect": {
+                "csvddfVersion": 1.0,
+                "delimiter": ",",
+                "lineTerminator": "\n",
+                "header": true
+            },
+            "alternative_formats": [
+                {
+                    "path": "household_data_1min_singleindex.csv",
+                    "stacking": "Singleindex",
+                    "format": "csv"
+                },
+                {
+                    "path": "household_data.xlsx",
+                    "stacking": "Multiindex",
+                    "format": "xlsx"
+                },
+                {
+                    "path": "household_data_1min_multiindex.csv",
+                    "stacking": "Multiindex",
+                    "format": "csv"
+                },
+                {
+                    "path": "household_data_1min_stacked.csv",
+                    "stacking": "Stacked",
+                    "format": "csv"
+                }
+            ]
+        },
+        {
+            "path": "household_data_15min_singleindex.csv",
+            "format": "csv",
+            "mediatype": "text/csv",
+            "encoding": "UTF8",
+            "schema": "15min",
+            "dialect": {
+                "csvddfVersion": 1.0,
+                "delimiter": ",",
+                "lineTerminator": "\n",
+                "header": true
+            },
+            "alternative_formats": [
+                {
+                    "path": "household_data_15min_singleindex.csv",
+                    "stacking": "Singleindex",
+                    "format": "csv"
+                },
+                {
+                    "path": "household_data.xlsx",
+                    "stacking": "Multiindex",
+                    "format": "xlsx"
+                },
+                {
+                    "path": "household_data_15min_multiindex.csv",
+                    "stacking": "Multiindex",
+                    "format": "csv"
+                },
+                {
+                    "path": "household_data_15min_stacked.csv",
+                    "stacking": "Stacked",
+                    "format": "csv"
+                }
+            ]
+        },
+        {
+            "path": "household_data_60min_singleindex.csv",
+            "format": "csv",
+            "mediatype": "text/csv",
+            "encoding": "UTF8",
+            "schema": "60min",
+            "dialect": {
+                "csvddfVersion": 1.0,
+                "delimiter": ",",
+                "lineTerminator": "\n",
+                "header": true
+            },
+            "alternative_formats": [
+                {
+                    "path": "household_data_60min_singleindex.csv",
+                    "stacking": "Singleindex",
+                    "format": "csv"
+                },
+                {
+                    "path": "household_data.xlsx",
+                    "stacking": "Multiindex",
+                    "format": "xlsx"
+                },
+                {
+                    "path": "household_data_60min_multiindex.csv",
+                    "stacking": "Multiindex",
+                    "format": "csv"
+                },
+                {
+                    "path": "household_data_60min_stacked.csv",
+                    "stacking": "Stacked",
+                    "format": "csv"
+                }
+            ]
+        }
+    ],
+    "schemas": {
+        "1min": {
+            "primaryKey": "utc_timestamp",
+            "missingValue": "",
+            "fields": [
+                {
+                    "name": "utc_timestamp",
+                    "description": "Start of timeperiod in Coordinated Universal Time",
+                    "type": "datetime",
+                    "format": "fmt:%Y-%m-%dT%H%M%SZ",
+                    "opsd-contentfilter": true
+                },
+                {
+                    "name": "cet_cest_timestamp",
+                    "description": "Start of timeperiod in Central European (Summer-) Time",
+                    "type": "datetime",
+                    "format": "fmt:%Y-%m-%dT%H%M%S%z"
+                },
+                {
+                    "name": "interpolated",
+                    "description": "marker to indicate which columns are missing data in source data and has been interpolated (e.g. DE_KN_Residential1_grid_import;)",
+                    "type": "string"
+                },
+                {
+                    "name": "DE_KN_industrial1_grid_import",
+                    "description": "Energy imported from the public grid in a industrial warehouse building in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "industrial_building_warehouse",
+                        "Household": "industrial1",
+                        "Feed": "grid_import"
+                    }
+                },
+                {
+                    "name": "DE_KN_industrial1_pv_1",
+                    "description": "Total Photovoltaic energy generation in a industrial warehouse building in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "industrial_building_warehouse",
+                        "Household": "industrial1",
+                        "Feed": "pv_1"
+                    }
+                },
+                {
+                    "name": "DE_KN_industrial1_pv_2",
+                    "description": "Total Photovoltaic energy generation in a industrial warehouse building in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "industrial_building_warehouse",
+                        "Household": "industrial1",
+                        "Feed": "pv_2"
+                    }
+                },
+                {
+                    "name": "DE_KN_industrial2_grid_import",
+                    "description": "Energy imported from the public grid in a industrial building of a business in the crafts sector in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "industrial_building_craft",
+                        "Household": "industrial2",
+                        "Feed": "grid_import"
+                    }
+                },
+                {
+                    "name": "DE_KN_industrial2_pv",
+                    "description": "Total Photovoltaic energy generation in a industrial building of a business in the crafts sector in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "industrial_building_craft",
+                        "Household": "industrial2",
+                        "Feed": "pv"
+                    }
+                },
+                {
+                    "name": "DE_KN_industrial2_storage_charge",
+                    "description": "Battery charging energy in a industrial building of a business in the crafts sector in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "industrial_building_craft",
+                        "Household": "industrial2",
+                        "Feed": "storage_charge"
+                    }
+                },
+                {
+                    "name": "DE_KN_industrial2_storage_decharge",
+                    "description": "Energy in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "industrial_building_craft",
+                        "Household": "industrial2",
+                        "Feed": "storage_decharge"
+                    }
+                },
+                {
+                    "name": "DE_KN_industrial3_area_offices",
+                    "description": "Energy consumption of an area, consisting of several smaller loads, in a industrial building, part of a research institute in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "industrial_building_institute",
+                        "Household": "industrial3",
+                        "Feed": "area_offices"
+                    }
+                },
+                {
+                    "name": "DE_KN_industrial3_area_room_1",
+                    "description": "Energy consumption of an area, consisting of several smaller loads, in a industrial building, part of a research institute in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "industrial_building_institute",
+                        "Household": "industrial3",
+                        "Feed": "area_room_1"
+                    }
+                },
+                {
+                    "name": "DE_KN_industrial3_area_room_2",
+                    "description": "Energy consumption of an area, consisting of several smaller loads, in a industrial building, part of a research institute in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "industrial_building_institute",
+                        "Household": "industrial3",
+                        "Feed": "area_room_2"
+                    }
+                },
+                {
+                    "name": "DE_KN_industrial3_area_room_3",
+                    "description": "Energy consumption of an area, consisting of several smaller loads, in a industrial building, part of a research institute in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "industrial_building_institute",
+                        "Household": "industrial3",
+                        "Feed": "area_room_3"
+                    }
+                },
+                {
+                    "name": "DE_KN_industrial3_area_room_4",
+                    "description": "Energy consumption of an area, consisting of several smaller loads, in a industrial building, part of a research institute in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "industrial_building_institute",
+                        "Household": "industrial3",
+                        "Feed": "area_room_4"
+                    }
+                },
+                {
+                    "name": "DE_KN_industrial3_compressor",
+                    "description": "Compressor energy consumption in a industrial building, part of a research institute in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "industrial_building_institute",
+                        "Household": "industrial3",
+                        "Feed": "compressor"
+                    }
+                },
+                {
+                    "name": "DE_KN_industrial3_cooling_aggregate",
+                    "description": "Cooling aggregate energy consumption in a industrial building, part of a research institute in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "industrial_building_institute",
+                        "Household": "industrial3",
+                        "Feed": "cooling_aggregate"
+                    }
+                },
+                {
+                    "name": "DE_KN_industrial3_cooling_pumps",
+                    "description": "Cooling pumps energy consumption in a industrial building, part of a research institute in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "industrial_building_institute",
+                        "Household": "industrial3",
+                        "Feed": "cooling_pumps"
+                    }
+                },
+                {
+                    "name": "DE_KN_industrial3_dishwasher",
+                    "description": "Dishwasher energy consumption in a industrial building, part of a research institute in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "industrial_building_institute",
+                        "Household": "industrial3",
+                        "Feed": "dishwasher"
+                    }
+                },
+                {
+                    "name": "DE_KN_industrial3_ev",
+                    "description": "Electric Vehicle charging energy in a industrial building, part of a research institute in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "industrial_building_institute",
+                        "Household": "industrial3",
+                        "Feed": "ev"
+                    }
+                },
+                {
+                    "name": "DE_KN_industrial3_grid_import",
+                    "description": "Energy imported from the public grid in a industrial building, part of a research institute in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "industrial_building_institute",
+                        "Household": "industrial3",
+                        "Feed": "grid_import"
+                    }
+                },
+                {
+                    "name": "DE_KN_industrial3_machine_1",
+                    "description": "Energy consumption of an industrial- or research-machine in a industrial building, part of a research institute in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "industrial_building_institute",
+                        "Household": "industrial3",
+                        "Feed": "machine_1"
+                    }
+                },
+                {
+                    "name": "DE_KN_industrial3_machine_2",
+                    "description": "Energy consumption of an industrial- or research-machine in a industrial building, part of a research institute in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "industrial_building_institute",
+                        "Household": "industrial3",
+                        "Feed": "machine_2"
+                    }
+                },
+                {
+                    "name": "DE_KN_industrial3_machine_3",
+                    "description": "Energy consumption of an industrial- or research-machine in a industrial building, part of a research institute in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "industrial_building_institute",
+                        "Household": "industrial3",
+                        "Feed": "machine_3"
+                    }
+                },
+                {
+                    "name": "DE_KN_industrial3_machine_4",
+                    "description": "Energy consumption of an industrial- or research-machine in a industrial building, part of a research institute in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "industrial_building_institute",
+                        "Household": "industrial3",
+                        "Feed": "machine_4"
+                    }
+                },
+                {
+                    "name": "DE_KN_industrial3_machine_5",
+                    "description": "Energy consumption of an industrial- or research-machine in a industrial building, part of a research institute in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "industrial_building_institute",
+                        "Household": "industrial3",
+                        "Feed": "machine_5"
+                    }
+                },
+                {
+                    "name": "DE_KN_industrial3_pv_facade",
+                    "description": "Total Photovoltaic energy generation in a industrial building, part of a research institute in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "industrial_building_institute",
+                        "Household": "industrial3",
+                        "Feed": "pv_facade"
+                    }
+                },
+                {
+                    "name": "DE_KN_industrial3_pv_roof",
+                    "description": "Total Photovoltaic energy generation in a industrial building, part of a research institute in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "industrial_building_institute",
+                        "Household": "industrial3",
+                        "Feed": "pv_roof"
+                    }
+                },
+                {
+                    "name": "DE_KN_industrial3_refrigerator",
+                    "description": "Refrigerator energy consumption in a industrial building, part of a research institute in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "industrial_building_institute",
+                        "Household": "industrial3",
+                        "Feed": "refrigerator"
+                    }
+                },
+                {
+                    "name": "DE_KN_industrial3_ventilation",
+                    "description": "Ventilation energy consumption in a industrial building, part of a research institute in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "industrial_building_institute",
+                        "Household": "industrial3",
+                        "Feed": "ventilation"
+                    }
+                },
+                {
+                    "name": "DE_KN_public1_grid_import",
+                    "description": "Energy imported from the public grid in a school building, located in the urban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "school_building_urban",
+                        "Household": "public1",
+                        "Feed": "grid_import"
+                    }
+                },
+                {
+                    "name": "DE_KN_public2_grid_import",
+                    "description": "Energy imported from the public grid in a school building, located in the urban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "school_building_urban",
+                        "Household": "public2",
+                        "Feed": "grid_import"
+                    }
+                },
+                {
+                    "name": "DE_KN_residential1_dishwasher",
+                    "description": "Dishwasher energy consumption in a residential building, located in the suburban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "residential_building_suburb",
+                        "Household": "residential1",
+                        "Feed": "dishwasher"
+                    }
+                },
+                {
+                    "name": "DE_KN_residential1_freezer",
+                    "description": "Freezer energy consumption in a residential building, located in the suburban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "residential_building_suburb",
+                        "Household": "residential1",
+                        "Feed": "freezer"
+                    }
+                },
+                {
+                    "name": "DE_KN_residential1_grid_import",
+                    "description": "Energy imported from the public grid in a residential building, located in the suburban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "residential_building_suburb",
+                        "Household": "residential1",
+                        "Feed": "grid_import"
+                    }
+                },
+                {
+                    "name": "DE_KN_residential1_heat_pump",
+                    "description": "Heat pump energy consumption in a residential building, located in the suburban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "residential_building_suburb",
+                        "Household": "residential1",
+                        "Feed": "heat_pump"
+                    }
+                },
+                {
+                    "name": "DE_KN_residential1_pv",
+                    "description": "Total Photovoltaic energy generation in a residential building, located in the suburban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "residential_building_suburb",
+                        "Household": "residential1",
+                        "Feed": "pv"
+                    }
+                },
+                {
+                    "name": "DE_KN_residential1_washing_machine",
+                    "description": "Washing machine energy consumption in a residential building, located in the suburban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "residential_building_suburb",
+                        "Household": "residential1",
+                        "Feed": "washing_machine"
+                    }
+                },
+                {
+                    "name": "DE_KN_residential2_circulation_pump",
+                    "description": "Circulation pump energy consumption in a residential building, located in the suburban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "residential_building_suburb",
+                        "Household": "residential2",
+                        "Feed": "circulation_pump"
+                    }
+                },
+                {
+                    "name": "DE_KN_residential2_dishwasher",
+                    "description": "Dishwasher energy consumption in a residential building, located in the suburban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "residential_building_suburb",
+                        "Household": "residential2",
+                        "Feed": "dishwasher"
+                    }
+                },
+                {
+                    "name": "DE_KN_residential2_freezer",
+                    "description": "Freezer energy consumption in a residential building, located in the suburban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "residential_building_suburb",
+                        "Household": "residential2",
+                        "Feed": "freezer"
+                    }
+                },
+                {
+                    "name": "DE_KN_residential2_grid_import",
+                    "description": "Energy imported from the public grid in a residential building, located in the suburban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "residential_building_suburb",
+                        "Household": "residential2",
+                        "Feed": "grid_import"
+                    }
+                },
+                {
+                    "name": "DE_KN_residential2_washing_machine",
+                    "description": "Washing machine energy consumption in a residential building, located in the suburban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "residential_building_suburb",
+                        "Household": "residential2",
+                        "Feed": "washing_machine"
+                    }
+                },
+                {
+                    "name": "DE_KN_residential3_circulation_pump",
+                    "description": "Circulation pump energy consumption in a residential building, located in the urban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "residential_building_urban",
+                        "Household": "residential3",
+                        "Feed": "circulation_pump"
+                    }
+                },
+                {
+                    "name": "DE_KN_residential3_dishwasher",
+                    "description": "Dishwasher energy consumption in a residential building, located in the urban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "residential_building_urban",
+                        "Household": "residential3",
+                        "Feed": "dishwasher"
+                    }
+                },
+                {
+                    "name": "DE_KN_residential3_freezer",
+                    "description": "Freezer energy consumption in a residential building, located in the urban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "residential_building_urban",
+                        "Household": "residential3",
+                        "Feed": "freezer"
+                    }
+                },
+                {
+                    "name": "DE_KN_residential3_grid_export",
+                    "description": "Energy exported to the public grid in a residential building, located in the urban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "residential_building_urban",
+                        "Household": "residential3",
+                        "Feed": "grid_export"
+                    }
+                },
+                {
+                    "name": "DE_KN_residential3_grid_import",
+                    "description": "Energy imported from the public grid in a residential building, located in the urban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "residential_building_urban",
+                        "Household": "residential3",
+                        "Feed": "grid_import"
+                    }
+                },
+                {
+                    "name": "DE_KN_residential3_pv",
+                    "description": "Total Photovoltaic energy generation in a residential building, located in the urban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "residential_building_urban",
+                        "Household": "residential3",
+                        "Feed": "pv"
+                    }
+                },
+                {
+                    "name": "DE_KN_residential3_refrigerator",
+                    "description": "Refrigerator energy consumption in a residential building, located in the urban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "residential_building_urban",
+                        "Household": "residential3",
+                        "Feed": "refrigerator"
+                    }
+                },
+                {
+                    "name": "DE_KN_residential3_washing_machine",
+                    "description": "Washing machine energy consumption in a residential building, located in the urban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "residential_building_urban",
+                        "Household": "residential3",
+                        "Feed": "washing_machine"
+                    }
+                },
+                {
+                    "name": "DE_KN_residential4_dishwasher",
+                    "description": "Dishwasher energy consumption in a residential building, located in the urban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "residential_building_urban",
+                        "Household": "residential4",
+                        "Feed": "dishwasher"
+                    }
+                },
+                {
+                    "name": "DE_KN_residential4_ev",
+                    "description": "Electric Vehicle charging energy in a residential building, located in the urban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "residential_building_urban",
+                        "Household": "residential4",
+                        "Feed": "ev"
+                    }
+                },
+                {
+                    "name": "DE_KN_residential4_freezer",
+                    "description": "Freezer energy consumption in a residential building, located in the urban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "residential_building_urban",
+                        "Household": "residential4",
+                        "Feed": "freezer"
+                    }
+                },
+                {
+                    "name": "DE_KN_residential4_grid_export",
+                    "description": "Energy exported to the public grid in a residential building, located in the urban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "residential_building_urban",
+                        "Household": "residential4",
+                        "Feed": "grid_export"
+                    }
+                },
+                {
+                    "name": "DE_KN_residential4_grid_import",
+                    "description": "Energy imported from the public grid in a residential building, located in the urban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "residential_building_urban",
+                        "Household": "residential4",
+                        "Feed": "grid_import"
+                    }
+                },
+                {
+                    "name": "DE_KN_residential4_heat_pump",
+                    "description": "Heat pump energy consumption in a residential building, located in the urban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "residential_building_urban",
+                        "Household": "residential4",
+                        "Feed": "heat_pump"
+                    }
+                },
+                {
+                    "name": "DE_KN_residential4_pv",
+                    "description": "Total Photovoltaic energy generation in a residential building, located in the urban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "residential_building_urban",
+                        "Household": "residential4",
+                        "Feed": "pv"
+                    }
+                },
+                {
+                    "name": "DE_KN_residential4_refrigerator",
+                    "description": "Refrigerator energy consumption in a residential building, located in the urban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "residential_building_urban",
+                        "Household": "residential4",
+                        "Feed": "refrigerator"
+                    }
+                },
+                {
+                    "name": "DE_KN_residential4_washing_machine",
+                    "description": "Washing machine energy consumption in a residential building, located in the urban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "residential_building_urban",
+                        "Household": "residential4",
+                        "Feed": "washing_machine"
+                    }
+                },
+                {
+                    "name": "DE_KN_residential5_dishwasher",
+                    "description": "Dishwasher energy consumption in a residential apartment, located in the urban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "residential_apartment_urban",
+                        "Household": "residential5",
+                        "Feed": "dishwasher"
+                    }
+                },
+                {
+                    "name": "DE_KN_residential5_grid_import",
+                    "description": "Energy imported from the public grid in a residential apartment, located in the urban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "residential_apartment_urban",
+                        "Household": "residential5",
+                        "Feed": "grid_import"
+                    }
+                },
+                {
+                    "name": "DE_KN_residential5_refrigerator",
+                    "description": "Refrigerator energy consumption in a residential apartment, located in the urban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "residential_apartment_urban",
+                        "Household": "residential5",
+                        "Feed": "refrigerator"
+                    }
+                },
+                {
+                    "name": "DE_KN_residential5_washing_machine",
+                    "description": "Washing machine energy consumption in a residential apartment, located in the urban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "residential_apartment_urban",
+                        "Household": "residential5",
+                        "Feed": "washing_machine"
+                    }
+                },
+                {
+                    "name": "DE_KN_residential6_circulation_pump",
+                    "description": "Circulation pump energy consumption in a residential building, located in the urban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "residential_building_urban",
+                        "Household": "residential6",
+                        "Feed": "circulation_pump"
+                    }
+                },
+                {
+                    "name": "DE_KN_residential6_dishwasher",
+                    "description": "Dishwasher energy consumption in a residential building, located in the urban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "residential_building_urban",
+                        "Household": "residential6",
+                        "Feed": "dishwasher"
+                    }
+                },
+                {
+                    "name": "DE_KN_residential6_freezer",
+                    "description": "Freezer energy consumption in a residential building, located in the urban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "residential_building_urban",
+                        "Household": "residential6",
+                        "Feed": "freezer"
+                    }
+                },
+                {
+                    "name": "DE_KN_residential6_grid_export",
+                    "description": "Energy exported to the public grid in a residential building, located in the urban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "residential_building_urban",
+                        "Household": "residential6",
+                        "Feed": "grid_export"
+                    }
+                },
+                {
+                    "name": "DE_KN_residential6_grid_import",
+                    "description": "Energy imported from the public grid in a residential building, located in the urban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "residential_building_urban",
+                        "Household": "residential6",
+                        "Feed": "grid_import"
+                    }
+                },
+                {
+                    "name": "DE_KN_residential6_pv",
+                    "description": "Total Photovoltaic energy generation in a residential building, located in the urban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "residential_building_urban",
+                        "Household": "residential6",
+                        "Feed": "pv"
+                    }
+                },
+                {
+                    "name": "DE_KN_residential6_washing_machine",
+                    "description": "Washing machine energy consumption in a residential building, located in the urban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "residential_building_urban",
+                        "Household": "residential6",
+                        "Feed": "washing_machine"
+                    }
+                }
+            ]
+        },
+        "15min": {
+            "primaryKey": "utc_timestamp",
+            "missingValue": "",
+            "fields": [
+                {
+                    "name": "utc_timestamp",
+                    "description": "Start of timeperiod in Coordinated Universal Time",
+                    "type": "datetime",
+                    "format": "fmt:%Y-%m-%dT%H%M%SZ",
+                    "opsd-contentfilter": true
+                },
+                {
+                    "name": "cet_cest_timestamp",
+                    "description": "Start of timeperiod in Central European (Summer-) Time",
+                    "type": "datetime",
+                    "format": "fmt:%Y-%m-%dT%H%M%S%z"
+                },
+                {
+                    "name": "interpolated",
+                    "description": "marker to indicate which columns are missing data in source data and has been interpolated (e.g. DE_KN_Residential1_grid_import;)",
+                    "type": "string"
+                },
+                {
+                    "name": "DE_KN_industrial1_grid_import",
+                    "description": "Energy imported from the public grid in a industrial warehouse building in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "industrial_building_warehouse",
+                        "Household": "industrial1",
+                        "Feed": "grid_import"
+                    }
+                },
+                {
+                    "name": "DE_KN_industrial1_pv_1",
+                    "description": "Total Photovoltaic energy generation in a industrial warehouse building in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "industrial_building_warehouse",
+                        "Household": "industrial1",
+                        "Feed": "pv_1"
+                    }
+                },
+                {
+                    "name": "DE_KN_industrial1_pv_2",
+                    "description": "Total Photovoltaic energy generation in a industrial warehouse building in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "industrial_building_warehouse",
+                        "Household": "industrial1",
+                        "Feed": "pv_2"
+                    }
+                },
+                {
+                    "name": "DE_KN_industrial2_grid_import",
+                    "description": "Energy imported from the public grid in a industrial building of a business in the crafts sector in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "industrial_building_craft",
+                        "Household": "industrial2",
+                        "Feed": "grid_import"
+                    }
+                },
+                {
+                    "name": "DE_KN_industrial2_pv",
+                    "description": "Total Photovoltaic energy generation in a industrial building of a business in the crafts sector in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "industrial_building_craft",
+                        "Household": "industrial2",
+                        "Feed": "pv"
+                    }
+                },
+                {
+                    "name": "DE_KN_industrial2_storage_charge",
+                    "description": "Battery charging energy in a industrial building of a business in the crafts sector in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "industrial_building_craft",
+                        "Household": "industrial2",
+                        "Feed": "storage_charge"
+                    }
+                },
+                {
+                    "name": "DE_KN_industrial2_storage_decharge",
+                    "description": "Energy in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "industrial_building_craft",
+                        "Household": "industrial2",
+                        "Feed": "storage_decharge"
+                    }
+                },
+                {
+                    "name": "DE_KN_industrial3_area_offices",
+                    "description": "Energy consumption of an area, consisting of several smaller loads, in a industrial building, part of a research institute in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "industrial_building_institute",
+                        "Household": "industrial3",
+                        "Feed": "area_offices"
+                    }
+                },
+                {
+                    "name": "DE_KN_industrial3_area_room_1",
+                    "description": "Energy consumption of an area, consisting of several smaller loads, in a industrial building, part of a research institute in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "industrial_building_institute",
+                        "Household": "industrial3",
+                        "Feed": "area_room_1"
+                    }
+                },
+                {
+                    "name": "DE_KN_industrial3_area_room_2",
+                    "description": "Energy consumption of an area, consisting of several smaller loads, in a industrial building, part of a research institute in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "industrial_building_institute",
+                        "Household": "industrial3",
+                        "Feed": "area_room_2"
+                    }
+                },
+                {
+                    "name": "DE_KN_industrial3_area_room_3",
+                    "description": "Energy consumption of an area, consisting of several smaller loads, in a industrial building, part of a research institute in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "industrial_building_institute",
+                        "Household": "industrial3",
+                        "Feed": "area_room_3"
+                    }
+                },
+                {
+                    "name": "DE_KN_industrial3_area_room_4",
+                    "description": "Energy consumption of an area, consisting of several smaller loads, in a industrial building, part of a research institute in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "industrial_building_institute",
+                        "Household": "industrial3",
+                        "Feed": "area_room_4"
+                    }
+                },
+                {
+                    "name": "DE_KN_industrial3_compressor",
+                    "description": "Compressor energy consumption in a industrial building, part of a research institute in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "industrial_building_institute",
+                        "Household": "industrial3",
+                        "Feed": "compressor"
+                    }
+                },
+                {
+                    "name": "DE_KN_industrial3_cooling_aggregate",
+                    "description": "Cooling aggregate energy consumption in a industrial building, part of a research institute in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "industrial_building_institute",
+                        "Household": "industrial3",
+                        "Feed": "cooling_aggregate"
+                    }
+                },
+                {
+                    "name": "DE_KN_industrial3_cooling_pumps",
+                    "description": "Cooling pumps energy consumption in a industrial building, part of a research institute in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "industrial_building_institute",
+                        "Household": "industrial3",
+                        "Feed": "cooling_pumps"
+                    }
+                },
+                {
+                    "name": "DE_KN_industrial3_dishwasher",
+                    "description": "Dishwasher energy consumption in a industrial building, part of a research institute in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "industrial_building_institute",
+                        "Household": "industrial3",
+                        "Feed": "dishwasher"
+                    }
+                },
+                {
+                    "name": "DE_KN_industrial3_ev",
+                    "description": "Electric Vehicle charging energy in a industrial building, part of a research institute in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "industrial_building_institute",
+                        "Household": "industrial3",
+                        "Feed": "ev"
+                    }
+                },
+                {
+                    "name": "DE_KN_industrial3_grid_import",
+                    "description": "Energy imported from the public grid in a industrial building, part of a research institute in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "industrial_building_institute",
+                        "Household": "industrial3",
+                        "Feed": "grid_import"
+                    }
+                },
+                {
+                    "name": "DE_KN_industrial3_machine_1",
+                    "description": "Energy consumption of an industrial- or research-machine in a industrial building, part of a research institute in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "industrial_building_institute",
+                        "Household": "industrial3",
+                        "Feed": "machine_1"
+                    }
+                },
+                {
+                    "name": "DE_KN_industrial3_machine_2",
+                    "description": "Energy consumption of an industrial- or research-machine in a industrial building, part of a research institute in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "industrial_building_institute",
+                        "Household": "industrial3",
+                        "Feed": "machine_2"
+                    }
+                },
+                {
+                    "name": "DE_KN_industrial3_machine_3",
+                    "description": "Energy consumption of an industrial- or research-machine in a industrial building, part of a research institute in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "industrial_building_institute",
+                        "Household": "industrial3",
+                        "Feed": "machine_3"
+                    }
+                },
+                {
+                    "name": "DE_KN_industrial3_machine_4",
+                    "description": "Energy consumption of an industrial- or research-machine in a industrial building, part of a research institute in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "industrial_building_institute",
+                        "Household": "industrial3",
+                        "Feed": "machine_4"
+                    }
+                },
+                {
+                    "name": "DE_KN_industrial3_machine_5",
+                    "description": "Energy consumption of an industrial- or research-machine in a industrial building, part of a research institute in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "industrial_building_institute",
+                        "Household": "industrial3",
+                        "Feed": "machine_5"
+                    }
+                },
+                {
+                    "name": "DE_KN_industrial3_pv_facade",
+                    "description": "Total Photovoltaic energy generation in a industrial building, part of a research institute in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "industrial_building_institute",
+                        "Household": "industrial3",
+                        "Feed": "pv_facade"
+                    }
+                },
+                {
+                    "name": "DE_KN_industrial3_pv_roof",
+                    "description": "Total Photovoltaic energy generation in a industrial building, part of a research institute in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "industrial_building_institute",
+                        "Household": "industrial3",
+                        "Feed": "pv_roof"
+                    }
+                },
+                {
+                    "name": "DE_KN_industrial3_refrigerator",
+                    "description": "Refrigerator energy consumption in a industrial building, part of a research institute in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "industrial_building_institute",
+                        "Household": "industrial3",
+                        "Feed": "refrigerator"
+                    }
+                },
+                {
+                    "name": "DE_KN_industrial3_ventilation",
+                    "description": "Ventilation energy consumption in a industrial building, part of a research institute in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "industrial_building_institute",
+                        "Household": "industrial3",
+                        "Feed": "ventilation"
+                    }
+                },
+                {
+                    "name": "DE_KN_public1_grid_import",
+                    "description": "Energy imported from the public grid in a school building, located in the urban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "school_building_urban",
+                        "Household": "public1",
+                        "Feed": "grid_import"
+                    }
+                },
+                {
+                    "name": "DE_KN_public2_grid_import",
+                    "description": "Energy imported from the public grid in a school building, located in the urban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "school_building_urban",
+                        "Household": "public2",
+                        "Feed": "grid_import"
+                    }
+                },
+                {
+                    "name": "DE_KN_residential1_dishwasher",
+                    "description": "Dishwasher energy consumption in a residential building, located in the suburban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "residential_building_suburb",
+                        "Household": "residential1",
+                        "Feed": "dishwasher"
+                    }
+                },
+                {
+                    "name": "DE_KN_residential1_freezer",
+                    "description": "Freezer energy consumption in a residential building, located in the suburban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "residential_building_suburb",
+                        "Household": "residential1",
+                        "Feed": "freezer"
+                    }
+                },
+                {
+                    "name": "DE_KN_residential1_grid_import",
+                    "description": "Energy imported from the public grid in a residential building, located in the suburban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "residential_building_suburb",
+                        "Household": "residential1",
+                        "Feed": "grid_import"
+                    }
+                },
+                {
+                    "name": "DE_KN_residential1_heat_pump",
+                    "description": "Heat pump energy consumption in a residential building, located in the suburban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "residential_building_suburb",
+                        "Household": "residential1",
+                        "Feed": "heat_pump"
+                    }
+                },
+                {
+                    "name": "DE_KN_residential1_pv",
+                    "description": "Total Photovoltaic energy generation in a residential building, located in the suburban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "residential_building_suburb",
+                        "Household": "residential1",
+                        "Feed": "pv"
+                    }
+                },
+                {
+                    "name": "DE_KN_residential1_washing_machine",
+                    "description": "Washing machine energy consumption in a residential building, located in the suburban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "residential_building_suburb",
+                        "Household": "residential1",
+                        "Feed": "washing_machine"
+                    }
+                },
+                {
+                    "name": "DE_KN_residential2_circulation_pump",
+                    "description": "Circulation pump energy consumption in a residential building, located in the suburban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "residential_building_suburb",
+                        "Household": "residential2",
+                        "Feed": "circulation_pump"
+                    }
+                },
+                {
+                    "name": "DE_KN_residential2_dishwasher",
+                    "description": "Dishwasher energy consumption in a residential building, located in the suburban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "residential_building_suburb",
+                        "Household": "residential2",
+                        "Feed": "dishwasher"
+                    }
+                },
+                {
+                    "name": "DE_KN_residential2_freezer",
+                    "description": "Freezer energy consumption in a residential building, located in the suburban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "residential_building_suburb",
+                        "Household": "residential2",
+                        "Feed": "freezer"
+                    }
+                },
+                {
+                    "name": "DE_KN_residential2_grid_import",
+                    "description": "Energy imported from the public grid in a residential building, located in the suburban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "residential_building_suburb",
+                        "Household": "residential2",
+                        "Feed": "grid_import"
+                    }
+                },
+                {
+                    "name": "DE_KN_residential2_washing_machine",
+                    "description": "Washing machine energy consumption in a residential building, located in the suburban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "residential_building_suburb",
+                        "Household": "residential2",
+                        "Feed": "washing_machine"
+                    }
+                },
+                {
+                    "name": "DE_KN_residential3_circulation_pump",
+                    "description": "Circulation pump energy consumption in a residential building, located in the urban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "residential_building_urban",
+                        "Household": "residential3",
+                        "Feed": "circulation_pump"
+                    }
+                },
+                {
+                    "name": "DE_KN_residential3_dishwasher",
+                    "description": "Dishwasher energy consumption in a residential building, located in the urban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "residential_building_urban",
+                        "Household": "residential3",
+                        "Feed": "dishwasher"
+                    }
+                },
+                {
+                    "name": "DE_KN_residential3_freezer",
+                    "description": "Freezer energy consumption in a residential building, located in the urban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "residential_building_urban",
+                        "Household": "residential3",
+                        "Feed": "freezer"
+                    }
+                },
+                {
+                    "name": "DE_KN_residential3_grid_export",
+                    "description": "Energy exported to the public grid in a residential building, located in the urban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "residential_building_urban",
+                        "Household": "residential3",
+                        "Feed": "grid_export"
+                    }
+                },
+                {
+                    "name": "DE_KN_residential3_grid_import",
+                    "description": "Energy imported from the public grid in a residential building, located in the urban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "residential_building_urban",
+                        "Household": "residential3",
+                        "Feed": "grid_import"
+                    }
+                },
+                {
+                    "name": "DE_KN_residential3_pv",
+                    "description": "Total Photovoltaic energy generation in a residential building, located in the urban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "residential_building_urban",
+                        "Household": "residential3",
+                        "Feed": "pv"
+                    }
+                },
+                {
+                    "name": "DE_KN_residential3_refrigerator",
+                    "description": "Refrigerator energy consumption in a residential building, located in the urban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "residential_building_urban",
+                        "Household": "residential3",
+                        "Feed": "refrigerator"
+                    }
+                },
+                {
+                    "name": "DE_KN_residential3_washing_machine",
+                    "description": "Washing machine energy consumption in a residential building, located in the urban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "residential_building_urban",
+                        "Household": "residential3",
+                        "Feed": "washing_machine"
+                    }
+                },
+                {
+                    "name": "DE_KN_residential4_dishwasher",
+                    "description": "Dishwasher energy consumption in a residential building, located in the urban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "residential_building_urban",
+                        "Household": "residential4",
+                        "Feed": "dishwasher"
+                    }
+                },
+                {
+                    "name": "DE_KN_residential4_ev",
+                    "description": "Electric Vehicle charging energy in a residential building, located in the urban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "residential_building_urban",
+                        "Household": "residential4",
+                        "Feed": "ev"
+                    }
+                },
+                {
+                    "name": "DE_KN_residential4_freezer",
+                    "description": "Freezer energy consumption in a residential building, located in the urban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "residential_building_urban",
+                        "Household": "residential4",
+                        "Feed": "freezer"
+                    }
+                },
+                {
+                    "name": "DE_KN_residential4_grid_export",
+                    "description": "Energy exported to the public grid in a residential building, located in the urban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "residential_building_urban",
+                        "Household": "residential4",
+                        "Feed": "grid_export"
+                    }
+                },
+                {
+                    "name": "DE_KN_residential4_grid_import",
+                    "description": "Energy imported from the public grid in a residential building, located in the urban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "residential_building_urban",
+                        "Household": "residential4",
+                        "Feed": "grid_import"
+                    }
+                },
+                {
+                    "name": "DE_KN_residential4_heat_pump",
+                    "description": "Heat pump energy consumption in a residential building, located in the urban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "residential_building_urban",
+                        "Household": "residential4",
+                        "Feed": "heat_pump"
+                    }
+                },
+                {
+                    "name": "DE_KN_residential4_pv",
+                    "description": "Total Photovoltaic energy generation in a residential building, located in the urban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "residential_building_urban",
+                        "Household": "residential4",
+                        "Feed": "pv"
+                    }
+                },
+                {
+                    "name": "DE_KN_residential4_refrigerator",
+                    "description": "Refrigerator energy consumption in a residential building, located in the urban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "residential_building_urban",
+                        "Household": "residential4",
+                        "Feed": "refrigerator"
+                    }
+                },
+                {
+                    "name": "DE_KN_residential4_washing_machine",
+                    "description": "Washing machine energy consumption in a residential building, located in the urban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "residential_building_urban",
+                        "Household": "residential4",
+                        "Feed": "washing_machine"
+                    }
+                },
+                {
+                    "name": "DE_KN_residential5_dishwasher",
+                    "description": "Dishwasher energy consumption in a residential apartment, located in the urban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "residential_apartment_urban",
+                        "Household": "residential5",
+                        "Feed": "dishwasher"
+                    }
+                },
+                {
+                    "name": "DE_KN_residential5_grid_import",
+                    "description": "Energy imported from the public grid in a residential apartment, located in the urban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "residential_apartment_urban",
+                        "Household": "residential5",
+                        "Feed": "grid_import"
+                    }
+                },
+                {
+                    "name": "DE_KN_residential5_refrigerator",
+                    "description": "Refrigerator energy consumption in a residential apartment, located in the urban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "residential_apartment_urban",
+                        "Household": "residential5",
+                        "Feed": "refrigerator"
+                    }
+                },
+                {
+                    "name": "DE_KN_residential5_washing_machine",
+                    "description": "Washing machine energy consumption in a residential apartment, located in the urban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "residential_apartment_urban",
+                        "Household": "residential5",
+                        "Feed": "washing_machine"
+                    }
+                },
+                {
+                    "name": "DE_KN_residential6_circulation_pump",
+                    "description": "Circulation pump energy consumption in a residential building, located in the urban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "residential_building_urban",
+                        "Household": "residential6",
+                        "Feed": "circulation_pump"
+                    }
+                },
+                {
+                    "name": "DE_KN_residential6_dishwasher",
+                    "description": "Dishwasher energy consumption in a residential building, located in the urban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "residential_building_urban",
+                        "Household": "residential6",
+                        "Feed": "dishwasher"
+                    }
+                },
+                {
+                    "name": "DE_KN_residential6_freezer",
+                    "description": "Freezer energy consumption in a residential building, located in the urban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "residential_building_urban",
+                        "Household": "residential6",
+                        "Feed": "freezer"
+                    }
+                },
+                {
+                    "name": "DE_KN_residential6_grid_export",
+                    "description": "Energy exported to the public grid in a residential building, located in the urban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "residential_building_urban",
+                        "Household": "residential6",
+                        "Feed": "grid_export"
+                    }
+                },
+                {
+                    "name": "DE_KN_residential6_grid_import",
+                    "description": "Energy imported from the public grid in a residential building, located in the urban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "residential_building_urban",
+                        "Household": "residential6",
+                        "Feed": "grid_import"
+                    }
+                },
+                {
+                    "name": "DE_KN_residential6_pv",
+                    "description": "Total Photovoltaic energy generation in a residential building, located in the urban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "residential_building_urban",
+                        "Household": "residential6",
+                        "Feed": "pv"
+                    }
+                },
+                {
+                    "name": "DE_KN_residential6_washing_machine",
+                    "description": "Washing machine energy consumption in a residential building, located in the urban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "residential_building_urban",
+                        "Household": "residential6",
+                        "Feed": "washing_machine"
+                    }
+                }
+            ]
+        },
+        "60min": {
+            "primaryKey": "utc_timestamp",
+            "missingValue": "",
+            "fields": [
+                {
+                    "name": "utc_timestamp",
+                    "description": "Start of timeperiod in Coordinated Universal Time",
+                    "type": "datetime",
+                    "format": "fmt:%Y-%m-%dT%H%M%SZ",
+                    "opsd-contentfilter": true
+                },
+                {
+                    "name": "cet_cest_timestamp",
+                    "description": "Start of timeperiod in Central European (Summer-) Time",
+                    "type": "datetime",
+                    "format": "fmt:%Y-%m-%dT%H%M%S%z"
+                },
+                {
+                    "name": "interpolated",
+                    "description": "marker to indicate which columns are missing data in source data and has been interpolated (e.g. DE_KN_Residential1_grid_import;)",
+                    "type": "string"
+                },
+                {
+                    "name": "DE_KN_industrial1_grid_import",
+                    "description": "Energy imported from the public grid in a industrial warehouse building in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "industrial_building_warehouse",
+                        "Household": "industrial1",
+                        "Feed": "grid_import"
+                    }
+                },
+                {
+                    "name": "DE_KN_industrial1_pv_1",
+                    "description": "Total Photovoltaic energy generation in a industrial warehouse building in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "industrial_building_warehouse",
+                        "Household": "industrial1",
+                        "Feed": "pv_1"
+                    }
+                },
+                {
+                    "name": "DE_KN_industrial1_pv_2",
+                    "description": "Total Photovoltaic energy generation in a industrial warehouse building in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "industrial_building_warehouse",
+                        "Household": "industrial1",
+                        "Feed": "pv_2"
+                    }
+                },
+                {
+                    "name": "DE_KN_industrial2_grid_import",
+                    "description": "Energy imported from the public grid in a industrial building of a business in the crafts sector in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "industrial_building_craft",
+                        "Household": "industrial2",
+                        "Feed": "grid_import"
+                    }
+                },
+                {
+                    "name": "DE_KN_industrial2_pv",
+                    "description": "Total Photovoltaic energy generation in a industrial building of a business in the crafts sector in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "industrial_building_craft",
+                        "Household": "industrial2",
+                        "Feed": "pv"
+                    }
+                },
+                {
+                    "name": "DE_KN_industrial2_storage_charge",
+                    "description": "Battery charging energy in a industrial building of a business in the crafts sector in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "industrial_building_craft",
+                        "Household": "industrial2",
+                        "Feed": "storage_charge"
+                    }
+                },
+                {
+                    "name": "DE_KN_industrial2_storage_decharge",
+                    "description": "Energy in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "industrial_building_craft",
+                        "Household": "industrial2",
+                        "Feed": "storage_decharge"
+                    }
+                },
+                {
+                    "name": "DE_KN_industrial3_area_offices",
+                    "description": "Energy consumption of an area, consisting of several smaller loads, in a industrial building, part of a research institute in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "industrial_building_institute",
+                        "Household": "industrial3",
+                        "Feed": "area_offices"
+                    }
+                },
+                {
+                    "name": "DE_KN_industrial3_area_room_1",
+                    "description": "Energy consumption of an area, consisting of several smaller loads, in a industrial building, part of a research institute in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "industrial_building_institute",
+                        "Household": "industrial3",
+                        "Feed": "area_room_1"
+                    }
+                },
+                {
+                    "name": "DE_KN_industrial3_area_room_2",
+                    "description": "Energy consumption of an area, consisting of several smaller loads, in a industrial building, part of a research institute in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "industrial_building_institute",
+                        "Household": "industrial3",
+                        "Feed": "area_room_2"
+                    }
+                },
+                {
+                    "name": "DE_KN_industrial3_area_room_3",
+                    "description": "Energy consumption of an area, consisting of several smaller loads, in a industrial building, part of a research institute in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "industrial_building_institute",
+                        "Household": "industrial3",
+                        "Feed": "area_room_3"
+                    }
+                },
+                {
+                    "name": "DE_KN_industrial3_area_room_4",
+                    "description": "Energy consumption of an area, consisting of several smaller loads, in a industrial building, part of a research institute in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "industrial_building_institute",
+                        "Household": "industrial3",
+                        "Feed": "area_room_4"
+                    }
+                },
+                {
+                    "name": "DE_KN_industrial3_compressor",
+                    "description": "Compressor energy consumption in a industrial building, part of a research institute in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "industrial_building_institute",
+                        "Household": "industrial3",
+                        "Feed": "compressor"
+                    }
+                },
+                {
+                    "name": "DE_KN_industrial3_cooling_aggregate",
+                    "description": "Cooling aggregate energy consumption in a industrial building, part of a research institute in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "industrial_building_institute",
+                        "Household": "industrial3",
+                        "Feed": "cooling_aggregate"
+                    }
+                },
+                {
+                    "name": "DE_KN_industrial3_cooling_pumps",
+                    "description": "Cooling pumps energy consumption in a industrial building, part of a research institute in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "industrial_building_institute",
+                        "Household": "industrial3",
+                        "Feed": "cooling_pumps"
+                    }
+                },
+                {
+                    "name": "DE_KN_industrial3_dishwasher",
+                    "description": "Dishwasher energy consumption in a industrial building, part of a research institute in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "industrial_building_institute",
+                        "Household": "industrial3",
+                        "Feed": "dishwasher"
+                    }
+                },
+                {
+                    "name": "DE_KN_industrial3_ev",
+                    "description": "Electric Vehicle charging energy in a industrial building, part of a research institute in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "industrial_building_institute",
+                        "Household": "industrial3",
+                        "Feed": "ev"
+                    }
+                },
+                {
+                    "name": "DE_KN_industrial3_grid_import",
+                    "description": "Energy imported from the public grid in a industrial building, part of a research institute in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "industrial_building_institute",
+                        "Household": "industrial3",
+                        "Feed": "grid_import"
+                    }
+                },
+                {
+                    "name": "DE_KN_industrial3_machine_1",
+                    "description": "Energy consumption of an industrial- or research-machine in a industrial building, part of a research institute in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "industrial_building_institute",
+                        "Household": "industrial3",
+                        "Feed": "machine_1"
+                    }
+                },
+                {
+                    "name": "DE_KN_industrial3_machine_2",
+                    "description": "Energy consumption of an industrial- or research-machine in a industrial building, part of a research institute in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "industrial_building_institute",
+                        "Household": "industrial3",
+                        "Feed": "machine_2"
+                    }
+                },
+                {
+                    "name": "DE_KN_industrial3_machine_3",
+                    "description": "Energy consumption of an industrial- or research-machine in a industrial building, part of a research institute in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "industrial_building_institute",
+                        "Household": "industrial3",
+                        "Feed": "machine_3"
+                    }
+                },
+                {
+                    "name": "DE_KN_industrial3_machine_4",
+                    "description": "Energy consumption of an industrial- or research-machine in a industrial building, part of a research institute in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "industrial_building_institute",
+                        "Household": "industrial3",
+                        "Feed": "machine_4"
+                    }
+                },
+                {
+                    "name": "DE_KN_industrial3_machine_5",
+                    "description": "Energy consumption of an industrial- or research-machine in a industrial building, part of a research institute in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "industrial_building_institute",
+                        "Household": "industrial3",
+                        "Feed": "machine_5"
+                    }
+                },
+                {
+                    "name": "DE_KN_industrial3_pv_facade",
+                    "description": "Total Photovoltaic energy generation in a industrial building, part of a research institute in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "industrial_building_institute",
+                        "Household": "industrial3",
+                        "Feed": "pv_facade"
+                    }
+                },
+                {
+                    "name": "DE_KN_industrial3_pv_roof",
+                    "description": "Total Photovoltaic energy generation in a industrial building, part of a research institute in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "industrial_building_institute",
+                        "Household": "industrial3",
+                        "Feed": "pv_roof"
+                    }
+                },
+                {
+                    "name": "DE_KN_industrial3_refrigerator",
+                    "description": "Refrigerator energy consumption in a industrial building, part of a research institute in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "industrial_building_institute",
+                        "Household": "industrial3",
+                        "Feed": "refrigerator"
+                    }
+                },
+                {
+                    "name": "DE_KN_industrial3_ventilation",
+                    "description": "Ventilation energy consumption in a industrial building, part of a research institute in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "industrial_building_institute",
+                        "Household": "industrial3",
+                        "Feed": "ventilation"
+                    }
+                },
+                {
+                    "name": "DE_KN_public1_grid_import",
+                    "description": "Energy imported from the public grid in a school building, located in the urban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "school_building_urban",
+                        "Household": "public1",
+                        "Feed": "grid_import"
+                    }
+                },
+                {
+                    "name": "DE_KN_public2_grid_import",
+                    "description": "Energy imported from the public grid in a school building, located in the urban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "school_building_urban",
+                        "Household": "public2",
+                        "Feed": "grid_import"
+                    }
+                },
+                {
+                    "name": "DE_KN_residential1_dishwasher",
+                    "description": "Dishwasher energy consumption in a residential building, located in the suburban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "residential_building_suburb",
+                        "Household": "residential1",
+                        "Feed": "dishwasher"
+                    }
+                },
+                {
+                    "name": "DE_KN_residential1_freezer",
+                    "description": "Freezer energy consumption in a residential building, located in the suburban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "residential_building_suburb",
+                        "Household": "residential1",
+                        "Feed": "freezer"
+                    }
+                },
+                {
+                    "name": "DE_KN_residential1_grid_import",
+                    "description": "Energy imported from the public grid in a residential building, located in the suburban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "residential_building_suburb",
+                        "Household": "residential1",
+                        "Feed": "grid_import"
+                    }
+                },
+                {
+                    "name": "DE_KN_residential1_heat_pump",
+                    "description": "Heat pump energy consumption in a residential building, located in the suburban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "residential_building_suburb",
+                        "Household": "residential1",
+                        "Feed": "heat_pump"
+                    }
+                },
+                {
+                    "name": "DE_KN_residential1_pv",
+                    "description": "Total Photovoltaic energy generation in a residential building, located in the suburban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "residential_building_suburb",
+                        "Household": "residential1",
+                        "Feed": "pv"
+                    }
+                },
+                {
+                    "name": "DE_KN_residential1_washing_machine",
+                    "description": "Washing machine energy consumption in a residential building, located in the suburban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "residential_building_suburb",
+                        "Household": "residential1",
+                        "Feed": "washing_machine"
+                    }
+                },
+                {
+                    "name": "DE_KN_residential2_circulation_pump",
+                    "description": "Circulation pump energy consumption in a residential building, located in the suburban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "residential_building_suburb",
+                        "Household": "residential2",
+                        "Feed": "circulation_pump"
+                    }
+                },
+                {
+                    "name": "DE_KN_residential2_dishwasher",
+                    "description": "Dishwasher energy consumption in a residential building, located in the suburban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "residential_building_suburb",
+                        "Household": "residential2",
+                        "Feed": "dishwasher"
+                    }
+                },
+                {
+                    "name": "DE_KN_residential2_freezer",
+                    "description": "Freezer energy consumption in a residential building, located in the suburban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "residential_building_suburb",
+                        "Household": "residential2",
+                        "Feed": "freezer"
+                    }
+                },
+                {
+                    "name": "DE_KN_residential2_grid_import",
+                    "description": "Energy imported from the public grid in a residential building, located in the suburban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "residential_building_suburb",
+                        "Household": "residential2",
+                        "Feed": "grid_import"
+                    }
+                },
+                {
+                    "name": "DE_KN_residential2_washing_machine",
+                    "description": "Washing machine energy consumption in a residential building, located in the suburban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "residential_building_suburb",
+                        "Household": "residential2",
+                        "Feed": "washing_machine"
+                    }
+                },
+                {
+                    "name": "DE_KN_residential3_circulation_pump",
+                    "description": "Circulation pump energy consumption in a residential building, located in the urban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "residential_building_urban",
+                        "Household": "residential3",
+                        "Feed": "circulation_pump"
+                    }
+                },
+                {
+                    "name": "DE_KN_residential3_dishwasher",
+                    "description": "Dishwasher energy consumption in a residential building, located in the urban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "residential_building_urban",
+                        "Household": "residential3",
+                        "Feed": "dishwasher"
+                    }
+                },
+                {
+                    "name": "DE_KN_residential3_freezer",
+                    "description": "Freezer energy consumption in a residential building, located in the urban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "residential_building_urban",
+                        "Household": "residential3",
+                        "Feed": "freezer"
+                    }
+                },
+                {
+                    "name": "DE_KN_residential3_grid_export",
+                    "description": "Energy exported to the public grid in a residential building, located in the urban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "residential_building_urban",
+                        "Household": "residential3",
+                        "Feed": "grid_export"
+                    }
+                },
+                {
+                    "name": "DE_KN_residential3_grid_import",
+                    "description": "Energy imported from the public grid in a residential building, located in the urban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "residential_building_urban",
+                        "Household": "residential3",
+                        "Feed": "grid_import"
+                    }
+                },
+                {
+                    "name": "DE_KN_residential3_pv",
+                    "description": "Total Photovoltaic energy generation in a residential building, located in the urban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "residential_building_urban",
+                        "Household": "residential3",
+                        "Feed": "pv"
+                    }
+                },
+                {
+                    "name": "DE_KN_residential3_refrigerator",
+                    "description": "Refrigerator energy consumption in a residential building, located in the urban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "residential_building_urban",
+                        "Household": "residential3",
+                        "Feed": "refrigerator"
+                    }
+                },
+                {
+                    "name": "DE_KN_residential3_washing_machine",
+                    "description": "Washing machine energy consumption in a residential building, located in the urban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "residential_building_urban",
+                        "Household": "residential3",
+                        "Feed": "washing_machine"
+                    }
+                },
+                {
+                    "name": "DE_KN_residential4_dishwasher",
+                    "description": "Dishwasher energy consumption in a residential building, located in the urban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "residential_building_urban",
+                        "Household": "residential4",
+                        "Feed": "dishwasher"
+                    }
+                },
+                {
+                    "name": "DE_KN_residential4_ev",
+                    "description": "Electric Vehicle charging energy in a residential building, located in the urban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "residential_building_urban",
+                        "Household": "residential4",
+                        "Feed": "ev"
+                    }
+                },
+                {
+                    "name": "DE_KN_residential4_freezer",
+                    "description": "Freezer energy consumption in a residential building, located in the urban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "residential_building_urban",
+                        "Household": "residential4",
+                        "Feed": "freezer"
+                    }
+                },
+                {
+                    "name": "DE_KN_residential4_grid_export",
+                    "description": "Energy exported to the public grid in a residential building, located in the urban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "residential_building_urban",
+                        "Household": "residential4",
+                        "Feed": "grid_export"
+                    }
+                },
+                {
+                    "name": "DE_KN_residential4_grid_import",
+                    "description": "Energy imported from the public grid in a residential building, located in the urban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "residential_building_urban",
+                        "Household": "residential4",
+                        "Feed": "grid_import"
+                    }
+                },
+                {
+                    "name": "DE_KN_residential4_heat_pump",
+                    "description": "Heat pump energy consumption in a residential building, located in the urban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "residential_building_urban",
+                        "Household": "residential4",
+                        "Feed": "heat_pump"
+                    }
+                },
+                {
+                    "name": "DE_KN_residential4_pv",
+                    "description": "Total Photovoltaic energy generation in a residential building, located in the urban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "residential_building_urban",
+                        "Household": "residential4",
+                        "Feed": "pv"
+                    }
+                },
+                {
+                    "name": "DE_KN_residential4_refrigerator",
+                    "description": "Refrigerator energy consumption in a residential building, located in the urban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "residential_building_urban",
+                        "Household": "residential4",
+                        "Feed": "refrigerator"
+                    }
+                },
+                {
+                    "name": "DE_KN_residential4_washing_machine",
+                    "description": "Washing machine energy consumption in a residential building, located in the urban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "residential_building_urban",
+                        "Household": "residential4",
+                        "Feed": "washing_machine"
+                    }
+                },
+                {
+                    "name": "DE_KN_residential5_dishwasher",
+                    "description": "Dishwasher energy consumption in a residential apartment, located in the urban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "residential_apartment_urban",
+                        "Household": "residential5",
+                        "Feed": "dishwasher"
+                    }
+                },
+                {
+                    "name": "DE_KN_residential5_grid_import",
+                    "description": "Energy imported from the public grid in a residential apartment, located in the urban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "residential_apartment_urban",
+                        "Household": "residential5",
+                        "Feed": "grid_import"
+                    }
+                },
+                {
+                    "name": "DE_KN_residential5_refrigerator",
+                    "description": "Refrigerator energy consumption in a residential apartment, located in the urban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "residential_apartment_urban",
+                        "Household": "residential5",
+                        "Feed": "refrigerator"
+                    }
+                },
+                {
+                    "name": "DE_KN_residential5_washing_machine",
+                    "description": "Washing machine energy consumption in a residential apartment, located in the urban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "residential_apartment_urban",
+                        "Household": "residential5",
+                        "Feed": "washing_machine"
+                    }
+                },
+                {
+                    "name": "DE_KN_residential6_circulation_pump",
+                    "description": "Circulation pump energy consumption in a residential building, located in the urban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "residential_building_urban",
+                        "Household": "residential6",
+                        "Feed": "circulation_pump"
+                    }
+                },
+                {
+                    "name": "DE_KN_residential6_dishwasher",
+                    "description": "Dishwasher energy consumption in a residential building, located in the urban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "residential_building_urban",
+                        "Household": "residential6",
+                        "Feed": "dishwasher"
+                    }
+                },
+                {
+                    "name": "DE_KN_residential6_freezer",
+                    "description": "Freezer energy consumption in a residential building, located in the urban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "residential_building_urban",
+                        "Household": "residential6",
+                        "Feed": "freezer"
+                    }
+                },
+                {
+                    "name": "DE_KN_residential6_grid_export",
+                    "description": "Energy exported to the public grid in a residential building, located in the urban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "residential_building_urban",
+                        "Household": "residential6",
+                        "Feed": "grid_export"
+                    }
+                },
+                {
+                    "name": "DE_KN_residential6_grid_import",
+                    "description": "Energy imported from the public grid in a residential building, located in the urban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "residential_building_urban",
+                        "Household": "residential6",
+                        "Feed": "grid_import"
+                    }
+                },
+                {
+                    "name": "DE_KN_residential6_pv",
+                    "description": "Total Photovoltaic energy generation in a residential building, located in the urban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "residential_building_urban",
+                        "Household": "residential6",
+                        "Feed": "pv"
+                    }
+                },
+                {
+                    "name": "DE_KN_residential6_washing_machine",
+                    "description": "Washing machine energy consumption in a residential building, located in the urban area in kWh",
+                    "type": "number (float)",
+                    "unit": "kWh",
+                    "opsd-properties": {
+                        "Region": "DE_KN",
+                        "Type": "residential_building_urban",
+                        "Household": "residential6",
+                        "Feed": "washing_machine"
+                    }
+                }
+            ]
+        }
+    }
+}
