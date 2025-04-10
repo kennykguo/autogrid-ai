@@ -4,10 +4,10 @@ import { BoltIcon, SunIcon, Battery100Icon, ChartBarIcon } from '@heroicons/reac
 
 const statusCards = [
   {
-    title: 'Current Power',
-    value: '2.4 MW',
+    title: 'Grid Status',
+    value: 'Connected',
     icon: BoltIcon,
-    trend: '+12%',
+    trend: 'ON',
     trendColor: 'text-green-500'
   },
   {
