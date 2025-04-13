@@ -8,25 +8,25 @@ import { EnvelopeIcon, GlobeAltIcon, PhoneIcon } from '@heroicons/react/24/outli
 const teamMembers = [
   {
     name: 'Krish Chhajer',
-    role: 'Frontend Developer',
+    role: '',
     bio: 'Specialized in React and Next.js development with expertise in building responsive and interactive user interfaces.',
     image: '/images/team/krish.jpg'
   },
   {
     name: 'Kenny Guo',
-    role: 'Backend Developer',
+    role: '',
     bio: 'Expert in Python and microservices architecture, focusing on scalable and efficient backend solutions.',
     image: '/images/team/kenny.jpg'
   },
   {
     name: 'Luthira Abeykoon',
-    role: 'Data Scientist',
+    role: '',
     bio: 'Focuses on machine learning and data analysis, specializing in energy consumption prediction models.',
     image: '/images/team/luthira.jpg'
   },
   {
     name: 'Nick Eckhert',
-    role: 'DevOps Engineer',
+    role: '',
     bio: 'Handles deployment and infrastructure management, ensuring smooth operation of our systems.',
     image: '/images/team/nick.jpg'
   }
