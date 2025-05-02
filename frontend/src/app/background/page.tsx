@@ -127,7 +127,7 @@ export default function BackgroundPage() {
                   Initial research, problem analysis, and system architecture design.
                   Identification of key technologies and methodologies.
                 </p>
-                <p className="text-sm text-gray-500 mt-1">Q1 2024</p>
+                <p className="text-sm text-gray-500 mt-1"></p>
               </div>
               <div className="relative pl-8 border-l-2 border-blue-500">
                 <div className="absolute w-4 h-4 bg-blue-500 rounded-full -left-[9px] top-0" />
@@ -136,7 +136,7 @@ export default function BackgroundPage() {
                   Implementation of core features, AI model development, and integration
                   of various system components.
                 </p>
-                <p className="text-sm text-gray-500 mt-1">Q2 2024</p>
+                <p className="text-sm text-gray-500 mt-1"></p>
               </div>
               <div className="relative pl-8 border-l-2 border-blue-500">
                 <div className="absolute w-4 h-4 bg-blue-500 rounded-full -left-[9px] top-0" />
@@ -144,7 +144,7 @@ export default function BackgroundPage() {
                 <p className="text-gray-600 mt-2">
                   System testing, performance optimization, and real-world pilot deployments.
                 </p>
-                <p className="text-sm text-gray-500 mt-1">Q3 2024</p>
+                <p className="text-sm text-gray-500 mt-1"></p>
               </div>
               <div className="relative pl-8">
                 <div className="absolute w-4 h-4 bg-blue-500 rounded-full -left-[9px] top-0" />
@@ -152,7 +152,7 @@ export default function BackgroundPage() {
                 <p className="text-gray-600 mt-2">
                   Full system deployment, user training, and continuous monitoring and improvements.
                 </p>
-                <p className="text-sm text-gray-500 mt-1">Q4 2024</p>
+                <p className="text-sm text-gray-500 mt-1"></p>
               </div>
             </div>
           </div>

@@ -8,26 +8,26 @@ import { EnvelopeIcon, GlobeAltIcon, PhoneIcon } from '@heroicons/react/24/outli
 const teamMembers = [
   {
     name: 'Krish Chhajer',
-    role: '',
-    bio: 'Specialized in React and Next.js development with expertise in building responsive and interactive user interfaces.',
+    role: '2nd Year ECE Student, University of Toronto',
+    bio: 'Specialized in developing reinforcement learning models for different environments, focusing on optimizing microgrid control systems.',
     image: '/images/team/krish.jpg'
   },
   {
     name: 'Kenny Guo',
-    role: '',
-    bio: 'Expert in Python and microservices architecture, focusing on scalable and efficient backend solutions.',
+    role: '2nd Year ECE Student, University of Toronto',
+    bio: 'Focused on creating and implementing reinforcement learning models for various environments, with expertise in model optimization.',
     image: '/images/team/kenny.jpg'
   },
   {
     name: 'Luthira Abeykoon',
-    role: '',
-    bio: 'Focuses on machine learning and data analysis, specializing in energy consumption prediction models.',
+    role: '2nd Year ECE Student, University of Toronto',
+    bio: 'Frontend development, API integration, and created forecasting models. Responsible for bringing together different components into the final product.',
     image: '/images/team/luthira.jpg'
   },
   {
     name: 'Nick Eckhert',
-    role: '',
-    bio: 'Handles deployment and infrastructure management, ensuring smooth operation of our systems.',
+    role: '2nd Year Industrial Engineering Student, University of Toronto',
+    bio: 'Specialized in synthetic data generation and development of baseline models for system performance comparison.',
     image: '/images/team/nick.jpg'
   }
 ];
@@ -36,7 +36,7 @@ const mentor = {
   name: 'Lorne Schell',
   role: 'Project Mentor',
   image: '/images/team/lorne.jpg',
-  bio: 'Professor of Electrical Engineering with expertise in smart grid systems and renewable energy integration.'
+  bio: ''
 };
 
 const features = [
@@ -196,4 +196,4 @@ export default function AboutPage() {
       </div>
     </main>
   )
-} 
+}
