@@ -5,9 +5,8 @@ export async function GET(request: Request, { params }: { params: { model: strin
   const features = searchParams.get('features');
   const model = params.model;
 
-  try {
-    const backendRes = await fetch(
-      `http://localhost:8000/forecast/${model}?features=${features}`
+  try {    const backendRes = await fetch(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/forecast/${model}?features=${features}`
     );
     const data = await backendRes.json();
     return NextResponse.json(data);

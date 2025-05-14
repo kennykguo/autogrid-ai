@@ -1,5 +1,4 @@
 import EnergyChart from '@/components/EnergyChart'
-import PowerFlow from '@/components/PowerFlow'
 import StatusCards from '@/components/StatusCards'
 import WeatherForecast from '@/components/WeatherForecast'
 
@@ -17,15 +16,9 @@ export default function Dashboard() {
         {/* Main Content Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Left Column - Energy Charts */}
-          <div className="lg:col-span-2 space-y-8">
-            <div className="bg-white rounded-lg shadow p-6">
+          <div className="lg:col-span-2 space-y-8">            <div className="bg-white rounded-lg shadow p-6">
               <h2 className="text-xl font-semibold mb-4">Energy Production & Consumption</h2>
               <EnergyChart />
-            </div>
-            
-            <div className="bg-white rounded-lg shadow p-6">
-              <h2 className="text-xl font-semibold mb-4">Power Flow</h2>
-              <PowerFlow />
             </div>
           </div>
 

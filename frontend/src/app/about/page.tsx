@@ -35,7 +35,7 @@ const teamMembers = [
 const mentor = {
   name: 'Lorne Schell',
   role: 'Project Mentor',
-  image: '/images/team/lorne.jpg',
+  image: '/images/team/Lorne.jpg',
   bio: ''
 };
 

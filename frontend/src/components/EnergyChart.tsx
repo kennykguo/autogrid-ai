@@ -1,6 +1,6 @@
 'use client'
 
-import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts'
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend, ReferenceLine } from 'recharts'
 import { useEffect, useState } from 'react'
 import { fetchMicrogridState } from '@/services/dataService'
 import { hourlyTimer } from '@/utils/hourlyTimer'
@@ -9,11 +9,13 @@ interface EnergyData {
   time: string;
   solar: number;
   wind: number;
-  grid: number;
-  battery: number;
+  criticalLoad: number;
+  essentialLoad: number;  
+  nonEssentialLoad: number;  
+  isForecast?: boolean;
 }
 
-const MAX_BATTERY_CHARGE = 80; // Maximum battery charge to maintain battery health
+const MAX_BATTERY_CHARGE = 80; 
 
 export default function EnergyChart() {
   const [data, setData] = useState<EnergyData[]>([]);
@@ -24,91 +26,46 @@ export default function EnergyChart() {
       try {
         const microgridState = await fetchMicrogridState();
         
-        // Convert prediction time to readable format
         const predictionTime = new Date(microgridState.predictionPeriod);
         setNextPrediction(predictionTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
         
-        // Get current time
         const currentTime = new Date(microgridState.currentTimestamp);
-        const currentHour = currentTime.getHours();
+        
+        const newData = Array.from({ length: 169 }, (_, i) => {
+          const isLastPoint = i === 168; 
+          const hoursAgo = 168 - i;
+          const date = new Date(currentTime);
+          date.setHours(date.getHours() - hoursAgo);
+          const timeStr = `${date.toLocaleDateString()} ${date.getHours().toString().padStart(2, '0')}:00`;
 
-        const newData = Array.from({ length: 8 }, (_, i) => {
-          const hour = (currentHour - 7 + i) < 0 ? 24 + (currentHour - 7 + i) : (currentHour - 7 + i);
-          const timeStr = `${hour.toString().padStart(2, '0')}:00`;
-          
-          // Enhanced time-based factors
-          const dayProgress = hour / 24;
-          const solarFactor = Math.sin(Math.PI * (dayProgress - 0.2)) * 0.8 + 0.2;
-          
-          // Increased wind factor
-          const isCurrentHour = i === 7;
-          const windFactor = isCurrentHour 
-            ? Math.cos(Math.PI * dayProgress) * 0.3 + 0.2 // Current hour: 20-50% of rated
-            : Math.cos(Math.PI * dayProgress) * 0.25 + 0.15; // Past hours: 15-40% of rated
-          
-          // Adjust load factor to increase early morning demand
-          const loadFactor = hour >= 9 && hour <= 17 ? 1 : 0.8; // Increased base load in non-peak hours
-          
-          // Base calculations
-          const baseLoad = microgridState.houseConsumption * loadFactor;
-          const solarGen = microgridState.solarOutput * Math.max(0, solarFactor);
-          const windGen = microgridState.windOutput * windFactor; // Removed reduction factor
-          
-          // Calculate available renewable power
-          const renewablePower = solarGen + windGen;
-          
-          // Enhanced battery logic
-          let batteryContribution = 0;
-          let gridContribution = 0;
-          
-          // Enhanced grid usage logic
-          const isEarlyHour = i <= 2; // First three hours of the chart
-          if (isEarlyHour) {
-            // Increase grid reliance in early hours
-            gridContribution = baseLoad * 0.7; // 70% from grid
-            const remainingNeed = baseLoad - gridContribution;
-            
-            // Use renewables and battery for the rest
-            if (renewablePower < remainingNeed) {
-              batteryContribution = Math.min(2, remainingNeed - renewablePower);
-            }
-          } else if (hour >= 10 && hour <= 15) {
-            // During peak solar:
-            if (renewablePower > baseLoad) {
-              // Charge battery more aggressively during surplus
-              batteryContribution = -Math.min(
-                5, // Increased max charging rate
-                (renewablePower - baseLoad) * 0.6 // Increased charging ratio
-              );
-            } else {
-              gridContribution = (baseLoad - renewablePower) * 0.3; // Only 30% from grid if needed
-            }
-          } else if (hour >= 17 || hour <= 7) {
-            // Evening/night: Use battery more aggressively
-            batteryContribution = Math.min(4, baseLoad * 0.6); // Increased discharge rate
-            
-            if (renewablePower + batteryContribution < baseLoad) {
-              gridContribution = baseLoad - (renewablePower + batteryContribution);
-            }
-          } else {
-            // Mixed strategy during other hours
-            if (renewablePower < baseLoad) {
-              batteryContribution = Math.min(3, (baseLoad - renewablePower) * 0.5);
-              gridContribution = baseLoad - (renewablePower + batteryContribution);
-            } else {
-              batteryContribution = -Math.min(2, (renewablePower - baseLoad) * 0.3);
-            }
+          if (isLastPoint) {
+
+            return {
+              time: timeStr,
+              solar: -0.3946498900651932,
+              wind: 11.134248910476476,
+              criticalLoad: 60.313917316993326,
+              essentialLoad: 231.63178826036452,
+              nonEssentialLoad: 85.05053586227545,
+              isForecast: true
+            };
           }
-
-          // Current hour uses exact values, past hours get small variations
-          const variation = i === 7 ? 1 : 0.9 + Math.random() * 0.2;
+          
+          const hour = date.getHours();
+          const dayProgress = hour / 24;
+          const weekdayFactor = date.getDay() === 0 || date.getDay() === 6 ? 0.7 : 1.0;
+          const solarFactor = Math.sin(Math.PI * (dayProgress - 0.2)) * 0.8 + 0.2;
+          const windFactor = (Math.cos(Math.PI * dayProgress) * 0.3 + 0.2) * (0.8 + Math.random() * 0.4);
+          const variation = 0.85 + Math.random() * 0.3;
           
           return {
             time: timeStr,
-            solar: Math.max(0, solarGen * variation),
-            wind: Math.max(0, windGen * variation),
-            grid: Math.max(0, gridContribution * variation),
-            battery: batteryContribution * variation // Can be negative (charging) or positive (discharging)
+            solar: Math.max(0, 26.7 * solarFactor * weekdayFactor * variation),
+            wind: Math.max(0, 69.2 * windFactor * variation),
+            criticalLoad: 81.7 * (0.8 + Math.random() * 0.4) * variation,
+            essentialLoad: 231.6 * (0.7 + Math.random() * 0.6) * variation,
+            nonEssentialLoad: 113.3 * (0.6 + Math.random() * 0.8) * variation,
+            isForecast: false
           };
         });
 
@@ -118,10 +75,7 @@ export default function EnergyChart() {
       }
     };
 
-    // Initial fetch
     fetchAndUpdateData();
-    
-    // Subscribe to hourly updates
     const unsubscribe = hourlyTimer.subscribe(fetchAndUpdateData);
     return () => {
       unsubscribe();
@@ -135,6 +89,23 @@ export default function EnergyChart() {
       </div>
     );
   }
+
+  const CustomDot = (props: any) => {
+    const { cx, cy, payload } = props;
+    if (payload.isForecast) {
+      return (
+        <circle 
+          cx={cx} 
+          cy={cy} 
+          r={6} 
+          stroke="#000"
+          strokeWidth={2}
+          fill={props.fill}
+        />
+      );
+    }
+    return null; 
+  };
 
   return (
     <div className="h-[400px]">
@@ -151,46 +122,74 @@ export default function EnergyChart() {
             bottom: 0,
           }}
         >
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="time" />
-          <YAxis label={{ value: 'kW', angle: -90, position: 'insideLeft' }} />
+          <CartesianGrid strokeDasharray="3 3" />          <XAxis 
+            dataKey="time" 
+            interval={23}
+            angle={-45}
+            textAnchor="end"
+            height={80}
+            tick={{ fontSize: 10 }}
+          />
+          <YAxis 
+            domain={[0, 250]}
+            tickCount={6}
+            tick={false}
+            axisLine={true}
+          />
           <Tooltip />
           <Legend />
+          <ReferenceLine
+            x={data[data.length - 2]?.time}
+            stroke="#EF4444"
+            strokeDasharray="3 3"
+          />
           <Area
             type="monotone"
             dataKey="solar"
             stackId="1"
-            stroke="#F59E0B"
-            fill="#F59E0B"
+            stroke="#FDB813"
+            fill="#FDB813"
             fillOpacity={0.3}
             name="Solar"
+            dot={<CustomDot />}
           />
           <Area
             type="monotone"
             dataKey="wind"
             stackId="1"
-            stroke="#3B82F6"
-            fill="#3B82F6"
+            stroke="#00A0DC"
+            fill="#00A0DC"
             fillOpacity={0.3}
             name="Wind"
-          />
-          <Area
+            dot={<CustomDot />}
+          />          <Area
             type="monotone"
-            dataKey="battery"
-            stackId="1"
-            stroke="#10B981"
-            fill="#10B981"
+            dataKey="criticalLoad"
+            stackId="2"
+            stroke="#FF6B6B"
+            fill="#FF6B6B"
             fillOpacity={0.3}
-            name="Battery"
+            name="Critical Load"
+            dot={<CustomDot />}
+          />          <Area
+            type="monotone"
+            dataKey="nonEssentialLoad"
+            stackId="2"
+            stroke="#9B59B6"
+            fill="#9B59B6"
+            fillOpacity={0.3}
+            name="Non-Critical Load"
+            dot={<CustomDot />}
           />
           <Area
             type="monotone"
-            dataKey="grid"
-            stackId="1"
-            stroke="#6B7280"
-            fill="#6B7280"
-            fillOpacity={0.4}
-            name="Grid"
+            dataKey="essentialLoad"
+            stackId="2"
+            stroke="#4ECDC4"
+            fill="#4ECDC4"
+            fillOpacity={0.3}
+            name="Essential Load"
+            dot={<CustomDot />}
           />
         </AreaChart>
       </ResponsiveContainer>

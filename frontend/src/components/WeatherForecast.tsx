@@ -3,7 +3,13 @@
 import { useEffect, useState } from 'react'
 import { fetchNorwayWeather } from '@/services/weatherService'
 import { hourlyTimer } from '@/utils/hourlyTimer'
-import { CloudIcon, SunIcon, CloudRainIcon, SnowflakeIcon, CloudLightningIcon, CloudSunIcon, EyeIcon } from '@heroicons/react/24/outline'
+import { CloudIcon } from '@heroicons/react/24/outline'
+import { SunIcon } from '@heroicons/react/24/outline'
+import { CloudArrowDownIcon } from '@heroicons/react/24/outline'  // Using CloudArrowDownIcon to represent rain
+import { EyeIcon } from '@heroicons/react/24/outline'
+import { BoltIcon as CloudLightningIcon } from '@heroicons/react/24/outline'
+import { CloudIcon as CloudSunIcon } from '@heroicons/react/24/outline'
+import { CloudIcon as SnowflakeIcon } from '@heroicons/react/24/outline'
 
 interface WeatherData {
   day: string;
@@ -17,11 +23,25 @@ const iconMap = {
   'sun': SunIcon,
   'cloud': CloudIcon,
   'cloud-sun': CloudSunIcon,
-  'cloud-rain': CloudRainIcon,
   'snowflake': SnowflakeIcon,
   'cloud-lightning': CloudLightningIcon,
-  'cloud-sleet': CloudRainIcon,
+  'cloud-sleet': CloudArrowDownIcon,
   'fog': EyeIcon
+};
+
+const getWeatherIcon = (condition: string) => {
+  switch (condition.toLowerCase()) {
+    case 'rain':
+      return CloudArrowDownIcon;  // Using CloudArrowDownIcon for rain
+    case 'sunny':
+      return SunIcon;
+    case 'cloudy':
+      return CloudIcon;
+    case 'storm':
+      return CloudLightningIcon;
+    default:
+      return CloudIcon;
+  }
 };
 
 export default function WeatherForecast() {
@@ -73,7 +93,7 @@ export default function WeatherForecast() {
   return (
     <div className="space-y-4">
       {forecast.map((day) => {
-        const Icon = iconMap[day.icon as keyof typeof iconMap] || CloudIcon;
+        const Icon = getWeatherIcon(day.condition) || CloudIcon;
         return (
           <div key={day.day} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
             <div className="flex items-center">

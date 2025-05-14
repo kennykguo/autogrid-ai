@@ -1,6 +1,6 @@
 'use client'
 
-import { BoltIcon, SunIcon, Battery100Icon, ChartBarIcon, ClockIcon } from '@heroicons/react/24/outline'
+import { BoltIcon, Battery100Icon, BoltSlashIcon, FireIcon, Cog6ToothIcon } from '@heroicons/react/24/outline'
 import { useEffect, useState } from 'react'
 import { fetchMicrogridState } from '@/services/dataService'
 import { hourlyTimer } from '@/utils/hourlyTimer'
@@ -18,58 +18,51 @@ export default function StatusCards() {
   const [nextUpdate, setNextUpdate] = useState<string>('');
 
   useEffect(() => {
-    const fetchAndUpdateData = async () => {
-      try {
-        const data = await fetchMicrogridState();
-        const predictionTime = new Date(data.predictionPeriod);
-        setNextUpdate(predictionTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
-        
-        setStatusData([
-          {
-            title: 'Prediction Period',
-            value: `Until ${nextUpdate}`,
-            icon: ClockIcon,
-            trend: 'Next Hour',
-            trendColor: 'text-blue-500'
-          },
-          {
-            title: 'Solar Generation',
-            value: `${data.solarOutput.toFixed(1)} kW`,
-            icon: SunIcon,
-            trend: 'Predicted',
-            trendColor: 'text-yellow-500'
-          },
-          {
-            title: 'Battery Level',
-            value: `${data.batteryCharge}%`,
-            icon: Battery100Icon,
-            trend: data.batteryCharge > 50 ? 'Charging' : 'Discharging',
-            trendColor: data.batteryCharge > 50 ? 'text-green-500' : 'text-red-500'
-          },
-          {
-            title: 'Grid Exchange',
-            value: `${Math.abs(data.gridConnection).toFixed(1)} kW`,
-            icon: ChartBarIcon,
-            trend: data.gridConnection > 0 ? 'Import' : 'Export',
-            trendColor: data.gridConnection > 0 ? 'text-yellow-500' : 'text-green-500'
-          }
-        ]);
-      } catch (error) {
-        console.error('Error fetching status data:', error);
-      }
+    const updateData = () => {
+      // Using specific power values
+      setStatusData([
+        {
+          title: 'Battery Control',
+          value: '100%',
+          icon: Battery100Icon,
+          trend: 'Charging',
+          trendColor: 'text-green-500'
+        },
+        {
+          title: 'Fuel Cell',
+          value: '100%',
+          icon: FireIcon,
+          trend: 'Max Power',
+          trendColor: 'text-yellow-500'
+        },
+        {
+          title: 'Generator',
+          value: '80%',
+          icon: Cog6ToothIcon,
+          trend: 'Power Output',
+          trendColor: 'text-blue-500'
+        },
+        {
+          title: 'Grid Mode',
+          value: 'Island',
+          icon: BoltSlashIcon,
+          trend: 'Independent',
+          trendColor: 'text-orange-500'
+        },
+      ]);
     };
 
-    // Initial fetch
-    fetchAndUpdateData();
+    // Initial update
+    updateData();
     
     // Subscribe to hourly updates
-    const unsubscribe = hourlyTimer.subscribe(fetchAndUpdateData);
+    const unsubscribe = hourlyTimer.subscribe(updateData);
     return unsubscribe;
   }, [nextUpdate]);
 
   if (statusData.length === 0) {
     return (
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
         {[...Array(4)].map((_, i) => (
           <div key={i} className="bg-white rounded-lg shadow p-6 animate-pulse">
             <div className="h-6 w-24 bg-gray-200 rounded mb-4"></div>

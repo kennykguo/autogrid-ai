@@ -110,6 +110,39 @@ export const fetchGridImport = async () => {
   };
 };
 
+const temporaryData = {
+  energySources: [
+    {
+      name: 'Solar',
+      current: 75,
+      capacity: 100,
+      trend: '+5%',
+      status: 'optimal'
+    },
+    {
+      name: 'Wind',
+      current: 45,
+      capacity: 80,
+      trend: '-2%',
+      status: 'normal'
+    },
+    {
+      name: 'Battery',
+      current: 90,
+      capacity: 100,
+      trend: '+10%',
+      status: 'charging'
+    },
+    {
+      name: 'Grid',
+      current: 20,
+      capacity: 100,
+      trend: '-15%',
+      status: 'backup'
+    }
+  ]
+};
+
 export const fetchEnergySources = async () => {
   // TODO: Implement actual API call
   return temporaryData.energySources;
