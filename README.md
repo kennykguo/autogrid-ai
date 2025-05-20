@@ -22,4 +22,5 @@ the best outcome decision.
 - Grid stability predictions
 
 # Frontend Dashboard
+[https://github.com/Luthiraa/autogrid-dashboard]([url](https://github.com/Luthiraa/autogrid-dashboard))
 ![image](https://github.com/user-attachments/assets/c67e7120-809b-4b1f-8560-3e9d3b0f46ab)
